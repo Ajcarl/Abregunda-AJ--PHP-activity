@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dota 2 Fan Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="auth-page login-page">
+
+    <div class="container-fluid min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+
+      <a href="home.php" class="auth-brand">
+        <img src="images/Dota 2 logo.jpg" alt="Site logo">
+        <span>Dota 2 Fan hub</span>
+      </a>
+
+      <div class="auth-card w-100" style="max-width: 400px;">
+        <h1>Welcome back</h1>
+        <p class="auth-subtitle">Log in to get back to your dashboard.</p>
+
+        <form id="loginForm">
+          <div class="mb-3 auth-input-wrap">
+            <label for="username" class="form-label visually-hidden">Username</label>
+            <input
+              type="text"
+              class="form-control auth-pill-input"
+              id="username"
+              name="username"
+              placeholder="Username"
+              minlength="3"
+              maxlength="20"
+              required
+            >
+            <i class="bi bi-person-fill auth-input-icon"></i>
+          </div>
+
+          <div class="mb-3 auth-input-wrap">
+            <label for="password" class="form-label visually-hidden">Password</label>
+            <input
+              type="password"
+              class="form-control auth-pill-input"
+              id="password"
+              name="password"
+              placeholder="Password"
+              minlength="5"
+              maxlength="30"
+              required
+            >
+            <i class="bi bi-lock-fill auth-input-icon"></i>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="remember">
+              <label class="form-check-label" for="remember">Remember me</label>
+            </div>
+            <a href="#" class="small">Forgot password?</a>
+          </div>
+
+          <!-- Server-side style error / success feedback -->
+          <div id="loginFeedback" class="mb-3" style="display:none;"></div>
+
+          <!-- Login button -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-auth-pill">Login</button>
+          </div>
+
+          <p class="text-center auth-foot mt-4 mb-0">
+            Don't have an account?
+            <a href="register.php">Register</a>
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script>
+      // Static demo credentials, per project spec
+      var VALID_USERNAME = 'admin';
+      var VALID_PASSWORD = '12345';
+
+      $(document).ready(function () {
+        $('#loginForm').validate({
+          rules: {
+            username: {
+              required: true,
+              minlength: 3,
+              maxlength: 20
+            },
+            password: {
+              required: true,
+              minlength: 5,
+              maxlength: 30
+            }
+          },
+          messages: {
+            username: {
+              required: 'Please enter your username',
+              minlength: 'Username must be at least 3 characters',
+              maxlength: 'Username must be no more than 20 characters'
+            },
+            password: {
+              required: 'Please enter your password',
+              minlength: 'Password must be at least 5 characters',
+              maxlength: 'Password must be no more than 30 characters'
+            }
+          },
+          errorPlacement: function (error, element) {
+            error.insertAfter(element);
+          },
+          submitHandler: function (form) {
+            var username = $('#username').val().trim();
+            var password = $('#password').val();
+            var $feedback = $('#loginFeedback');
+
+            if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+              $feedback
+                .removeClass('alert-danger')
+                .addClass('alert alert-success')
+                .text('Login successful! Redirecting...')
+                .show();
+
+              sessionStorage.setItem('username', username);
+
+              setTimeout(function () {
+                window.location.href = 'home.php';
+              }, 800);
+            } else {
+              $feedback
+                .removeClass('alert-success')
+                .addClass('alert alert-danger')
+                .text('Invalid username or password.')
+                .show();
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
